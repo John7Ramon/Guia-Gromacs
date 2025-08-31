@@ -1,0 +1,18 @@
+# ===================================================================
+# DÍA 1 - PASO 2: COMANDOS POWERSHELL DISM
+# ===================================================================
+# EJECUTAR: PowerShell como ADMINISTRADOR
+
+# CONTEXTO: Usar cuando "Subsistema de Windows para Linux" 
+# no aparece disponible en las características de Windows
+
+# Comando 1: Habilitar el Subsistema de Windows para Linux
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+
+# Comando 2: Habilitar la Plataforma de Máquina Virtual
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+# ⚠️ OBLIGATORIO: REINICIAR EL EQUIPO después de estos comandos
+# Después del reinicio, continuar con el siguiente archivo
+
+# IMPORTANTE: Copiar directamente para evitar errores de formato

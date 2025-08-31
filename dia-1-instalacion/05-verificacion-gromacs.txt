@@ -1,0 +1,23 @@
+# ===================================================================
+# DÍA 1 - PASO 5: VERIFICAR INSTALACIÓN GROMACS
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL)
+
+# Comando principal de verificación
+gmx
+
+# Resultado esperado (ejemplo real):
+# :-) GROMACS - gmx, 2025.2 (-:
+#
+# Executable:   /opt/gromacs-24.4/bin/gmx
+# Data prefix:  /opt/gromacs-24.4
+# Working dir:  /home/jbram/gromacs_proyectos/mi_primera_simulacion/moleculas
+# Command line:
+#   gmx
+
+# ✅ Si ves información similar: ¡INSTALACIÓN EXITOSA!
+# La versión puede variar (2024.4, 2025.2, etc.)
+# Las rutas pueden ser diferentes según tu instalación
+
+# Comando adicional para ver versión específica
+gmx --version

@@ -1,0 +1,20 @@
+# ===================================================================
+# DÍA 1 - PASO 1: PREPARACIÓN DEL SISTEMA
+# ===================================================================
+
+# IMPORTANTE: Realizar ANTES de instalar WSL
+
+# 1. ACTUALIZAR BIOS
+# - Usar herramienta del fabricante (ej: Lenovo Vantage para Lenovo)
+# - Garantiza compatibilidad con virtualización para WSL 2
+
+# 2. INSTALAR ACTUALIZACIONES DE WINDOWS
+# - Ir a Configuración → Windows Update
+# - Instalar TODAS las actualizaciones pendientes
+# - Esto es CRÍTICO: WSL requiere componentes específicos del SO
+
+# 3. INSTALAR VISUAL STUDIO CON C++
+# Tutorial detallado: https://www.youtube.com/watch?v=xZkVxWD58N8
+# Proporciona herramientas de compilación necesarias
+
+# ⚠️ NOTA: La preparación completa puede tomar tiempo, pero evita problemas posteriores

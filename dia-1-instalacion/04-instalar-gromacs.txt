@@ -1,0 +1,19 @@
+# ===================================================================
+# DÍA 1 - PASO 4: INSTALACIÓN DE GROMACS
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL)
+
+# TUTORIAL RECOMENDADO:
+# Video: https://youtu.be/G4azHp0b540?t=381
+# Minutos específicos: 6:31 hasta 16:30
+# Explica detalladamente cada paso del proceso
+
+# NOTA: La instalación de GROMACS puede tomar tiempo
+# Seguir exactamente los pasos del video tutorial
+# para evitar errores de configuración
+
+# El tutorial cubre:
+# - Descarga de GROMACS
+# - Compilación desde código fuente
+# - Configuración de paths
+# - Optimizaciones específicas

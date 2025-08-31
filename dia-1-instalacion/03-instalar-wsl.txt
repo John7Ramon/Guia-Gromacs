@@ -1,0 +1,17 @@
+# ===================================================================
+# DÍA 1 - PASO 3: INSTALACIÓN WSL (DESPUÉS DEL REINICIO)
+# ===================================================================
+# EJECUTAR: PowerShell como ADMINISTRADOR
+
+# Instalación rápida de WSL (SOLO después de reiniciar)
+wsl --install
+
+# Resultado esperado:
+# - Descarga automática de Ubuntu
+# - Instalación del kernel WSL 2
+# - Se abre Ubuntu pidiendo crear usuario/contraseña
+
+# Al crear usuario/contraseña:
+# - Será tu usuario principal de Linux
+# - Necesitarás la contraseña para comandos sudo
+# - Ubuntu aparecerá en el menú de inicio de Windows
