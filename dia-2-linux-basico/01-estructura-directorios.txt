@@ -1,0 +1,34 @@
+# ===================================================================
+# DÍA 2 - PASO 1: CREACIÓN DE ESTRUCTURA DE DIRECTORIOS
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL)
+
+# Crear el directorio principal de proyectos GROMACS
+mkdir -p ~/gromacs_proyectos
+
+# Navegar al directorio principal
+cd ~/gromacs_proyectos
+
+# Crear la estructura para nuestro primer proyecto
+mkdir -p mi_primera_simulacion/moleculas
+mkdir -p mi_primera_simulacion/topologias
+mkdir -p mi_primera_simulacion/configuracion
+mkdir -p mi_primera_simulacion/equilibrado
+mkdir -p mi_primera_simulacion/produccion
+mkdir -p mi_primera_simulacion/analisis
+mkdir -p mi_primera_simulacion/scripts
+
+# Verificar la estructura creada
+ls -la mi_primera_simulacion/
+
+# Ver ubicación actual
+pwd
+
+# ESTRUCTURA CREADA:
+# moleculas/     → Archivos fuente (.mol2, .pdb)
+# topologias/    → Archivos .itp generados por ACPYPE
+# configuracion/ → Archivos de configuración (.mdp)
+# equilibrado/   → Resultados de simulaciones de equilibrado
+# produccion/    → Simulaciones de producción y trayectorias
+# analisis/      → Scripts y resultados de análisis
+# scripts/       → Automatizaciones personalizadas

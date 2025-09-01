@@ -1,0 +1,23 @@
+# ===================================================================
+# DÍA 2 - PASO 4: INSTALACIÓN DE AMBERTOOLS (INCLUYE ACPYPE)
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) con Miniconda instalado
+
+# Instalar AmberTools desde conda-forge
+conda install -c conda-forge ambertools
+
+# Confirmar instalación escribiendo 'y' cuando se solicite
+
+# Verificar que ACPYPE está disponible
+acpype --help
+
+# Verificar que Antechamber está disponible  
+antechamber -h
+
+# Si ambos comandos funcionan, la instalación fue exitosa
+
+# NOTA: AmberTools incluye:
+# - ACPYPE (conversión de moléculas)
+# - Antechamber (preparación de parámetros)
+# - LEaP (construcción de sistemas)
+# - Y otras herramientas de preparación molecular

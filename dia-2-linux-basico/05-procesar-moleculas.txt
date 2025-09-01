@@ -1,0 +1,31 @@
+# ===================================================================
+# DÍA 2 - PASO 5: PROCESAMIENTO DE MOLÉCULAS CON ACPYPE
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio de moléculas
+
+# Navegar al directorio de moléculas
+cd ~/gromacs_proyectos/mi_primera_simulacion/moleculas
+
+# Verificar archivos .mol2 disponibles
+ls -la
+
+# Buscar archivos .mol2 específicamente
+ls -la *.mol2
+
+# EJEMPLO: Procesar acetaminofén
+acpype -i AcetoME.mol2 -b acetaminofen -a gaff2 -c bcc
+
+# EJEMPLO: Procesar polímero PVA
+acpype -i PVA.mol2 -b pva_polymer -a gaff2 -c bcc
+
+# PARÁMETROS EXPLICADOS:
+# -i : archivo de entrada (.mol2)
+# -b : nombre base para archivos de salida
+# -a gaff2 : campo de fuerza GAFF2 (para moléculas orgánicas)
+# -c bcc : método AM1-BCC para cálculo de cargas parciales
+
+# IMPORTANTE: El procesamiento puede tomar varios minutos
+# No interrumpir el proceso
+
+# Verificar directorios generados después del procesamiento
+ls -la

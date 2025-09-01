@@ -1,0 +1,37 @@
+# ===================================================================
+# DÍA 2 - PASO 6: ORGANIZACIÓN DE ARCHIVOS RESULTANTES
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio de moléculas
+
+# Verificar directorios generados por ACPYPE
+ls -la
+
+# Ver contenido de directorio de acetaminofén
+ls -la acetaminofen.acpype/
+
+# Ver contenido de directorio de PVA
+ls -la pva_polymer.acpype/
+
+# Los archivos importantes para GROMACS:
+# *_GMX.itp → topología para GROMACS
+# *_GMX.gro → coordenadas para GROMACS
+
+# Copiar topologías al directorio correspondiente
+cp acetaminofen.acpype/acetaminofen_GMX.itp ../topologias/
+cp pva_polymer.acpype/pva_polymer_GMX.itp ../topologias/
+
+# Copiar coordenadas al directorio de configuración
+cp acetaminofen.acpype/acetaminofen_GMX.gro ../configuracion/
+cp pva_polymer.acpype/pva_polymer_GMX.gro ../configuracion/
+
+# Verificar que los archivos se copiaron correctamente
+ls -la ../topologias/
+ls -la ../configuracion/
+
+# Ver ubicación actual
+pwd
+
+# RESULTADO FINAL:
+# - Moléculas procesadas con ACPYPE
+# - Topologías organizadas en su directorio
+# - Coordenadas listas para configuración del sistema

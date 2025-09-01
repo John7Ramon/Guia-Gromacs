@@ -1,0 +1,24 @@
+# ===================================================================
+# DÍA 2 - PASO 2: VERIFICAR ARQUITECTURA DEL SISTEMA
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL)
+
+# Verificar la arquitectura del sistema
+uname -m
+
+# Resultado esperado: x86_64
+
+# Verificar versión de Ubuntu
+cat /etc/os-release
+
+# Verificar que Python está disponible
+python3 --version
+
+# Verificar espacio disponible en disco
+df -h
+
+# Ver ubicación actual
+pwd
+
+# IMPORTANTE: La arquitectura debe ser x86_64 para los comandos siguientes
+# Si aparece algo diferente, necesitarás comandos específicos para tu arquitectura
