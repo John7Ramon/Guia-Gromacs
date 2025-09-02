@@ -19,12 +19,12 @@
 - `05-verificacion-gromacs.txt` → Verificar instalación con comando gmx
 
 ### ▶ [Día 2: Linux Básico y ACPYPE](dia-2/) ✓ **COMPLETO**
-- `paso-1-estructura-directorios.sh` → Crear estructura de carpetas del proyecto
-- `paso-2-verificar-sistema.sh` → Verificar arquitectura y compatibilidad
-- `paso-3-instalar-miniconda.sh` → Instalar Miniconda para gestión de paquetes
-- `paso-4-instalar-ambertools.sh` → Instalar AmberTools (incluye ACPYPE)
-- `paso-5-procesar-moleculas.sh` → Procesar moléculas .mol2 con ACPYPE
-- `paso-6-organizar-resultados.sh` → Organizar archivos para GROMACS
+- `01-estructura-directorios.txt` → Crear estructura de carpetas del proyecto
+- `02-verificar-sistema.txt` → Verificar arquitectura y compatibilidad
+- `03-instalar-miniconda.txt` → Instalar Miniconda para gestión de paquetes
+- `04-instalar-ambertools.txt` → Instalar AmberTools (incluye ACPYPE)
+- `05-procesar-moleculas.txt` → Procesar moléculas .mol2 con ACPYPE
+- `06-organizar-resultados.txt` → Organizar archivos para GROMACS
 
 ### ◦ Próximamente
 - Día 3: Preparación de estructuras
