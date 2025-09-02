@@ -1,12 +1,12 @@
 # ▶ Día 2: Linux Básico y ACPYPE
 
 **Orden de ejecución:**
-1. **[paso-1-estructura-directorios.sh](paso-1-estructura-directorios.sh)** → Crear estructura de carpetas del proyecto
-2. **[paso-2-verificar-sistema.sh](paso-2-verificar-sistema.sh)** → Verificar arquitectura y compatibilidad
-3. **[paso-3-instalar-miniconda.sh](paso-3-instalar-miniconda.sh)** → Instalar Miniconda para gestión de paquetes
-4. **[paso-4-instalar-ambertools.sh](paso-4-instalar-ambertools.sh)** → Instalar AmberTools (incluye ACPYPE)
-5. **[paso-5-procesar-moleculas.sh](paso-5-procesar-moleculas.sh)** → Procesar moléculas .mol2 con ACPYPE
-6. **[paso-6-organizar-resultados.sh](paso-6-organizar-resultados.sh)** → Organizar archivos para GROMACS
+1. **[01-estructura-directorios.txt](01-estructura-directorios.txt)** → Crear estructura de carpetas del proyecto
+2. **[02-verificar-sistema.txt](02-verificar-sistema.txt)** → Verificar arquitectura y compatibilidad
+3. **[03-instalar-miniconda.txt](03-instalar-miniconda.txt)** → Instalar Miniconda para gestión de paquetes
+4. **[04-instalar-ambertools.txt](04-instalar-ambertools.txt)** → Instalar AmberTools (incluye ACPYPE)
+5. **[05-procesar-moleculas.txt](05-procesar-moleculas.txt)** → Procesar moléculas .mol2 con ACPYPE
+6. **[06-organizar-resultados.txt](06-organizar-resultados.txt)** → Organizar archivos para GROMACS
 
 ## ■ Dónde ejecutar cada paso:
 - **Todos los pasos:** Ubuntu (WSL2)
