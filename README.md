@@ -18,7 +18,7 @@
 - `04-instalar-gromacs.txt` → Tutorial YouTube específico
 - `05-verificacion-gromacs.txt` → Verificar instalación con comando gmx
 
-### ▶ [Día 2: Linux Básico y ACPYPE](dia-2/) ✓ **COMPLETO**
+### ▶ [Día 2: Linux Básico y ACPYPE](dia-2-linux-basico/) ✓ **COMPLETO**
 - `01-estructura-directorios.txt` → Crear estructura de carpetas del proyecto
 - `02-verificar-sistema.txt` → Verificar arquitectura y compatibilidad
 - `03-instalar-miniconda.txt` → Instalar Miniconda para gestión de paquetes
