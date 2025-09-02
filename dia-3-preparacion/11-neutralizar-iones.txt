@@ -1,0 +1,68 @@
+# ===================================================================
+# DÍA 3 - PASO 11: AGREGAR IONES PARA NEUTRALIZAR EL SISTEMA
+# ===================================================================
+
+# EJECUTAR: En Ubuntu (WSL) - Directorio con ions.tpr generado
+# Neutralizar cargas del sistema reemplazando moléculas de agua por iones
+
+# Comando para agregar iones
+gmx genion -s ions.tpr -o sistema_ions.gro -p sistema.top -pname NA -nname CL -neutral
+
+# PARÁMETROS:
+# * `-s` = Archivo .tpr de entrada (ions.tpr)
+# * `-o` = Archivo de coordenadas de salida con iones
+# * `-p` = Archivo de topología a actualizar
+# * `-pname NA` = Catión: Sodio (Na+)
+# * `-nname CL` = Anión: Cloro (Cl-)
+# * `-neutral` = Neutralizar carga total del sistema
+
+# DURANTE LA EJECUCIÓN:
+# GROMACS preguntará qué grupo reemplazar por iones
+# Selecciona: 13 SOL (moléculas de agua)
+
+# SALIDA ESPERADA:
+# :-) GROMACS - gmx genion, 2025.2 (-:
+# 
+# Executable:   /opt/gromacs-24.4/bin/gmx
+# Data prefix:  /opt/gromacs-24.4
+# Working dir:  /home/usuario/gromacs_proyectos/...
+# Command line:
+#   gmx genion -s ions.tpr -o sistema_ions.gro -p sistema.top -pname NA -nname CL -neutral
+# 
+# Reading file ions.tpr, VERSION 2025.2 (single precision)
+# 
+# Reading solute configuration
+# Will try to add 0 NA ions and 0 CL ions.
+# Select a continuous group of solvent molecules
+# Group     0 (         System) has  5126 elements
+# Group     1 (        Protein) has    71 elements
+# Group     2 (      Protein-H) has    38 elements
+# Group     3 (        C-alpha) has     0 elements
+# Group     4 (       Backbone) has     0 elements
+# Group     5 (      MainChain) has     0 elements
+# Group     6 (   MainChain+Cb) has     0 elements
+# Group     7 (    MainChain+H) has     0 elements
+# Group     8 (      SideChain) has     0 elements
+# Group     9 (    SideChain-H) has     0 elements
+# Group    10 (    Prot-Masses) has    71 elements
+# Group    11 (    non-Protein) has  5055 elements
+# Group    12 (          Water) has  5055 elements
+# Group    13 (            SOL) has  5055 elements
+# Group    14 (      non-Water) has    71 elements
+# Select a group: 13
+# 
+# Number of (3-atomic) solvent molecules: 1685
+# 
+# Processing topology
+# Back Off! I just backed up sistema.top to ./#sistema.top.2#
+# 
+# GROMACS reminds you: "The secret to creativity is knowing how to hide your sources" (Einstein)
+
+# ARCHIVOS GENERADOS:
+# ✅ sistema_ions.gro (sistema neutralizado con iones)
+# ✅ sistema.top actualizado (con iones agregados)
+
+# IMPORTANTE: 
+# - Siempre selecciona el grupo SOL (grupo 13) para reemplazar
+# - El sistema queda eléctricamente neutro
+# - Las moléculas de agua se reemplazan por iones según sea necesario

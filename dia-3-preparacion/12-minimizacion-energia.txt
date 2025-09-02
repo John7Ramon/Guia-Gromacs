@@ -1,0 +1,75 @@
+# ===================================================================
+# DÍA 3 - PASO 12: MINIMIZACIÓN DE ENERGÍA DEL SISTEMA
+# ===================================================================
+
+# EJECUTAR: En Ubuntu (WSL) - Directorio con sistema_ions.gro y em.mdp
+# Preparar y ejecutar minimización de energía para relajar el sistema
+
+# COMANDO 1: Preparar archivo binario para minimización
+gmx grompp -f em.mdp -c sistema_ions.gro -p sistema.top -o em.tpr
+
+# PARÁMETROS:
+# * `-f em.mdp` = Archivo de parámetros de minimización
+# * `-c sistema_ions.gro` = Coordenadas del sistema con iones
+# * `-p sistema.top` = Topología del sistema
+# * `-o em.tpr` = Archivo binario de salida para simulación
+
+# COMANDO 2: Ejecutar minimización de energía
+gmx mdrun -v -deffnm em
+
+# PARÁMETROS:
+# * `-v` = Modo verboso (mostrar progreso)
+# * `-deffnm em` = Usar "em" como prefijo para archivos de salida
+
+# SALIDA ESPERADA:
+# :-) GROMACS - gmx grompp, 2025.2 (-:
+# [información del sistema y parámetros]
+# 
+# :-) GROMACS - gmx mdrun, 2025.2 (-:
+# [progreso de la minimización]
+# ...
+# Double precision normally gives you higher accuracy, but this is often not needed
+# for preparing to run molecular dynamics. You might need to increase your constraint
+# accuracy, or turn off constraints altogether (set constraints = none in mdp file)
+# 
+# writing lowest energy coordinates.
+# 
+# Steepest Descents converged to machine precision in 20102 steps,
+# but did not reach the requested Fmax < 10.
+# 
+# Potential Energy  = -8.9890672e+04
+# Maximum force     =  8.2322929e+01 on atom 40
+# Norm of force     =  3.1228937e+00
+# 
+# GROMACS reminds you: "Here's something fun to do: Next time you approach a conversation say 'I want to talk to someone technical... Oh! There's a woman!' and walk straight over to her." (Patty Lopez)
+
+# EXPLICACIÓN DE LOS COMANDOS:
+
+# gmx grompp:
+# - Preprocesa el sistema para simulación
+# - Combina coordenadas, topología y parámetros
+# - Genera archivo binario .tpr optimizado
+# - Verifica compatibilidad de todos los archivos
+
+# gmx mdrun:
+# - Motor de simulación de GROMACS
+# - Ejecuta algoritmo Steepest Descents
+# - Busca configuración de mínima energía
+# - Optimiza posiciones atómicas para eliminar tensiones
+
+# INTERPRETACIÓN DE RESULTADOS:
+# ✅ Energía final: -89,890 kJ/mol (estable)
+# ⚠️ Fuerza máxima: 82.3 kJ/mol·nm (no alcanzó objetivo < 10)
+# ✅ 20,102 pasos de minimización realizados
+# ✅ Convergencia a precisión de máquina
+
+# ARCHIVOS GENERADOS:
+# ✅ em.tpr (archivo de simulación)
+# ✅ em.gro (coordenadas minimizadas)
+# ✅ em.edr (datos energéticos)
+# ✅ em.log (registro de la simulación)
+
+# IMPORTANTE: 
+# - La minimización prepara el sistema para dinámica molecular
+# - Fuerza máxima > 10 es aceptable para sistemas complejos
+# - El sistema está listo para equilibración

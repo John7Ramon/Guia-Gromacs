@@ -1,0 +1,82 @@
+# ===================================================================
+# DÍA 3 - PASO 1: VALIDACIÓN AUTOMÁTICA DEL SISTEMA MOLECULAR
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio con archivos .gro y .itp
+# Ejecutar validación completa en un solo comando
+# Copia desde la siguiente linea
+{
+echo "🔍 VALIDACIÓN AUTOMÁTICA DE ARCHIVOS"
+echo "===================================="
+echo "📊 CONSISTENCIA DE ÁTOMOS:"
+for gro_file in *.gro; do
+    if [[ -f "$gro_file" ]]; then
+        base_name=$(basename "$gro_file" .gro)
+        itp_file=""
+        if [[ -f "${base_name}.itp" ]]; then
+            itp_file="${base_name}.itp"
+        else
+            itp_file=$(ls *${base_name}*.itp 2>/dev/null | head -1)
+        fi
+        
+        if [[ -n "$itp_file" && -f "$itp_file" ]]; then
+            gro_atoms=$(sed -n '2p' "$gro_file" | tr -d ' ')
+            itp_atoms=$(awk '/\[ atoms \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {count++} END{print count+0}' "$itp_file")
+            
+            if [[ "$gro_atoms" == "$itp_atoms" ]]; then
+                echo "  ✅ $gro_file ↔ $itp_file: $gro_atoms átomos"
+            else
+                echo "  ❌ $gro_file ($gro_atoms) ↔ $itp_file ($itp_atoms): INCONSISTENTE"
+            fi
+        else
+            echo "  ⚠️  $gro_file: No se encontró .itp correspondiente"
+        fi
+    fi
+done
+echo ""
+echo "⚡ VERIFICACIÓN DE CARGAS:"
+for itp_file in *.itp; do
+    if [[ -f "$itp_file" ]]; then
+        charge=$(grep "qtot" "$itp_file" | tail -1 | awk '{print $NF}')
+        if [[ -n "$charge" ]]; then
+            if awk "BEGIN {exit !(($charge >= -0.001) && ($charge <= 0.001))}"; then
+                echo "  ✅ $itp_file: Carga neutra ($charge)"
+            else
+                echo "  ⚠️  $itp_file: Carga no neutra ($charge)"
+            fi
+        else
+            echo "  ❌ $itp_file: No se encontraron valores qtot"
+        fi
+    fi
+done
+echo ""
+echo "🏷️  NOMBRES DE MOLECULETYPE:"
+for itp_file in *.itp; do
+    if [[ -f "$itp_file" ]]; then
+        mol_name=$(awk '/\[ moleculetype \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {print $1; exit}' "$itp_file")
+        if [[ -n "$mol_name" ]]; then
+            echo "  📄 $itp_file → Moleculetype: '$mol_name'"
+        else
+            echo "  ❌ $itp_file: No se pudo extraer nombre de moleculetype"
+        fi
+    fi
+done
+echo ""
+echo "📊 RESUMEN:"
+gro_count=$(ls *.gro 2>/dev/null | wc -l)
+itp_count=$(ls *.itp 2>/dev/null | wc -l)
+echo "📁 Archivos: $gro_count .gro, $itp_count .itp"
+if [[ $gro_count -ge 2 ]] && [[ $itp_count -ge 2 ]]; then
+    echo "✅ Sistema listo para siguiente paso"
+else
+    echo "⚠️  Verificar archivos antes de continuar"
+fi
+}
+# Copia hasta la linea anterior 
+# Pegalo en tu terminal con ctrl + shift + V y dale enter para ejecutar
+# VERIFICACIONES REALIZADAS:
+# - Consistencia de número de átomos entre archivos .gro y .itp
+# - Neutralidad de cargas en cada molécula (qtot ≈ 0)
+# - Extracción de nombres de moleculetype para identificación
+# - Conteo de archivos disponibles para procesamiento
+# IMPORTANTE: Este comando debe mostrar ✅ en todas las verificaciones
+# antes de proceder al paso de diagnóstico detallado

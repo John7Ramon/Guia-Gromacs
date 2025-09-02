@@ -1,0 +1,116 @@
+# ===================================================================
+# DÍA 3 - PASO 2: DIAGNÓSTICO COMPLETO DEL SISTEMA
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio con archivos .gro y .itp
+# Análisis profundo de estructura molecular y detección de conflictos de atomtypes
+# Copia desde la siguiente linea
+echo "🔍 DIAGNÓSTICO COMPLETO DEL SISTEMA"
+echo "=================================="
+echo ""
+echo "📁 INVENTARIO DE ARCHIVOS:"
+ls -la *.gro *.itp 2>/dev/null | awk '{print "  " $9 " (" $5 " bytes)"}'
+echo ""
+echo "📋 ESTRUCTURA DETALLADA DE ARCHIVOS .ITP:"
+echo "========================================="
+for itp_file in *.itp; do
+    echo "📄 $itp_file:"
+    echo "   Secciones encontradas:"
+    grep "^\[" "$itp_file" | sed 's/^/     /'
+    
+    echo "   Moleculetype:"
+    mol_name=$(awk '/\[ moleculetype \]/{getline; getline; print $1; exit}' "$itp_file")
+    echo "     Nombre: '$mol_name'"
+    
+    echo "   Atomtypes:"
+    atomtype_count=$(awk '/\[ atomtypes \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {count++} END{print count+0}' "$itp_file")
+    echo "     Cantidad: $atomtype_count"
+    if [[ $atomtype_count -gt 0 ]]; then
+        echo "     Lista: $(awk '/\[ atomtypes \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {print $1}' "$itp_file" | paste -sd ', ')"
+    fi
+    
+    echo "   Átomos:"
+    atom_count=$(awk '/\[ atoms \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {count++} END{print count+0}' "$itp_file")
+    echo "     Cantidad: $atom_count"
+    echo ""
+done
+echo "📋 ESTRUCTURA DE ARCHIVOS .GRO:"
+echo "==============================="
+for gro_file in *.gro; do
+    echo "📄 $gro_file:"
+    echo "   Título: $(head -1 "$gro_file")"
+    echo "   Átomos declarados: $(sed -n '2p' "$gro_file")"
+    echo "   Nombre de residuo: $(awk 'NR==3 {print substr($0, 6, 4)}' "$gro_file" | sed 's/ //g')"
+    echo "   Dimensiones caja: $(tail -1 "$gro_file")"
+    echo ""
+done
+echo "🔍 ANÁLISIS DE ATOMTYPES:"
+echo "========================"
+echo "Atomtypes por archivo:"
+all_atomtypes=()
+for itp_file in *.itp; do
+    atomtypes=$(awk '/\[ atomtypes \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {print $1}' "$itp_file")
+    echo "  $itp_file: $(echo "$atomtypes" | paste -sd ', ')"
+    all_atomtypes+=($atomtypes)
+done
+echo ""
+echo "Atomtypes únicos totales:"
+printf '%s\n' "${all_atomtypes[@]}" | sort -u | paste -sd ', '
+echo ""
+echo "Atomtypes duplicados:"
+printf '%s\n' "${all_atomtypes[@]}" | sort | uniq -d | paste -sd ', '
+echo ""
+echo "📊 COMPATIBILIDAD ARCHIVO-ARCHIVO:"
+echo "=================================="
+for gro_file in *.gro; do
+    base_name=$(basename "$gro_file" .gro)
+    if [[ -f "${base_name}.itp" ]]; then
+        itp_file="${base_name}.itp"
+    else
+        itp_file=$(ls *${base_name}*.itp 2>/dev/null | head -1)
+    fi
+    
+    if [[ -n "$itp_file" ]]; then
+        gro_atoms=$(sed -n '2p' "$gro_file")
+        itp_atoms=$(awk '/\[ atoms \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {count++} END{print count+0}' "$itp_file")
+        gro_residue=$(awk 'NR==3 {print substr($0, 6, 4)}' "$gro_file" | sed 's/ //g')
+        itp_moltype=$(awk '/\[ moleculetype \]/{getline; getline; print $1; exit}' "$itp_file")
+        
+        echo "  $gro_file ↔ $itp_file:"
+        echo "    Átomos: $gro_atoms (.gro) vs $itp_atoms (.itp) - $([ "$gro_atoms" = "$itp_atoms" ] && echo "✅ OK" || echo "❌ ERROR")"
+        echo "    Nombres: '$gro_residue' (residuo) vs '$itp_moltype' (moleculetype)"
+    fi
+done
+echo ""
+echo "🎯 DIAGNÓSTICO FINAL:"
+echo "===================="
+problems=()
+itp_count=$(ls *.itp 2>/dev/null | wc -l)
+atomtypes_files=$(grep -l "^\[ atomtypes \]" *.itp 2>/dev/null | wc -l)
+duplicate_count=$(printf '%s\n' "${all_atomtypes[@]}" | sort | uniq -d | wc -l)
+if [[ $atomtypes_files -gt 1 ]]; then
+    problems+=("Múltiples archivos con [atomtypes] ($atomtypes_files)")
+fi
+if [[ $duplicate_count -gt 0 ]]; then
+    problems+=("Atomtypes duplicados ($duplicate_count)")
+fi
+if [[ ${#problems[@]} -eq 0 ]]; then
+    echo "✅ SISTEMA SIMPLE: Sin conflictos de atomtypes"
+    echo "📋 ACCIÓN: Puede usar includes directos"
+else
+    echo "⚠️  SISTEMA COMPLEJO: Requiere consolidación"
+    echo "📋 PROBLEMAS DETECTADOS:"
+    for problem in "${problems[@]}"; do
+        echo "   • $problem"
+    done
+    echo "📋 ACCIÓN: Consolidar atomtypes y crear archivos limpios"
+fi
+# Copia hasta la linea anterior 
+# Pegalo en tu terminal con ctrl + shift + V y dale enter para ejecutar
+# ANÁLISIS REALIZADO:
+# - Inventario completo de archivos .gro y .itp
+# - Estructura interna de cada archivo (secciones, atomtypes, átomos)
+# - Detección de atomtypes duplicados entre archivos
+# - Compatibilidad entre archivos .gro y .itp correspondientes
+# - Diagnóstico final con recomendación de estrategia
+# IMPORTANTE: Este paso puede tomar tiempo con moléculas grandes
+# El diagnóstico determina si necesitas consolidación (pasos 3-5) o puedes proceder directo

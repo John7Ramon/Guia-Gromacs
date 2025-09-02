@@ -1,0 +1,44 @@
+# ===================================================================
+# DÍA 3 - PASO 3: CONSOLIDACIÓN DE ATOMTYPES
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio con archivos .itp que tienen atomtypes duplicados
+# Resolver duplicados de atomtypes entre archivos .itp creando archivo consolidado único
+# Copia desde la siguiente linea
+echo "🔬 CONSOLIDACIÓN DE ATOMTYPES"
+echo "============================"
+echo "📋 Creando lista de atomtypes únicos..."
+{
+    echo "; Atomtypes consolidados desde:"
+    echo "; - aceto.itp (acetaminofen)"
+    echo "; - pva_polymer.itp (pva_polymer)"
+    echo ""
+    
+    awk '/\[ atomtypes \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {print}' aceto.itp
+    
+    awk '/\[ atomtypes \]/{flag=1; next} /^\[/{flag=0} flag && NF>0 && !(/^;/) {print}' pva_polymer.itp
+    
+} | awk '
+/^;/ || /^$/ {print; next}
+{
+    if (!seen[$1]) {
+        seen[$1] = 1
+        print
+    }
+}
+' > atomtypes_consolidados.txt
+echo "✅ Atomtypes consolidados en: atomtypes_consolidados.txt"
+echo ""
+echo "📊 RESULTADO:"
+echo "Atomtypes únicos consolidados:"
+grep -v "^;" atomtypes_consolidados.txt | awk '{print $1}' | paste -sd ', '
+echo ""
+echo "Total: $(grep -v "^;" atomtypes_consolidados.txt | wc -l) atomtypes únicos"
+# Copia hasta la linea anterior 
+# Pegalo en tu terminal con ctrl + shift + V y dale enter para ejecutar
+# CONSOLIDACIÓN REALIZADA:
+# - Extracción de atomtypes de aceto.itp y pva_polymer.itp
+# - Eliminación automática de duplicados (primera definición prevalece)
+# - Generación de atomtypes_consolidados.txt con atomtypes únicos
+# - Resolución de duplicados c3, hc, ho, oh detectados en diagnóstico
+# IMPORTANTE: El archivo generado se usará en pasos posteriores
+# No modificar manualmente atomtypes_consolidados.txt

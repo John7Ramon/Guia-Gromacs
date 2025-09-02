@@ -1,0 +1,50 @@
+# ===================================================================
+# DÍA 3 - PASO 6: VERIFICACIÓN DE TOPOLOGÍA Y COORDENADAS
+# ===================================================================
+
+# EJECUTAR: En Ubuntu con GROMACS instalado
+# CONTEXTO: Verificar que GROMACS puede leer correctamente el sistema
+# antes de proceder con simulaciones
+
+# Verificar el archivo de coordenadas (.gro)
+gmx check -f sistema.gro
+
+# SALIDA ESPERADA:
+# :-) GROMACS - gmx check, 2025.2 (-:
+# 
+# Executable:   /opt/gromacs-24.4/bin/gmx
+# Data prefix:  /opt/gromacs-24.4
+# Working dir:  /home/jbram/gromacs_proyectos/mi_primera_simulacion/preparacion/simulacion_nueva/nuevo_intento/otramas/otra
+# Command line:
+#   gmx check -f sistema.gro
+# 
+# Checking file sistema.gro
+# Reading frames from gro file 'Sistema Acetaminofen + PVA Polymer', 71 atoms.
+# Reading frame       0 time    0.000
+# 
+# # Atoms   71
+# Precision 0.001 (nm)
+# Last frame       0 time    0.000
+# 
+# Item        #frames Timestep (ps)
+# Step              0
+# Time              0
+# Lambda            0
+# Coords            1
+# Velocities        0
+# Forces            0
+# Box               1
+# 
+# GROMACS reminds you: "I hadn't been aware that there were doors closed to me until I started knocking on them." (Gertrude Elion)
+
+# INTERPRETACIÓN:
+# ✓ 71 átomos detectados correctamente
+# ✓ 1 frame de coordenadas presente
+# ✓ Caja de simulación definida
+# ✓ Sin errores de formato
+
+# RESULTADO FINAL:
+# ✓ Sistema leído correctamente sin errores
+# ✓ Archivo .gro con formato válido
+# ✓ Coordenadas verificadas exitosamente
+# ✓ Listo para el siguiente paso de simulación

@@ -1,0 +1,67 @@
+# ===================================================================
+# DÍA 3 - PASO 4: AGREGAR ATOMTYPES DE AGUA Y CREAR ARCHIVOS LIMPIOS
+# ===================================================================
+# EJECUTAR: En Ubuntu (WSL) - directorio con atomtypes_consolidados.txt del paso anterior
+# Completar atomtypes con agua SPC/E y crear archivos .itp sin secciones duplicadas
+# Copia desde la siguiente linea
+echo "💧 AGREGANDO ATOMTYPES DE AGUA SPC/E"
+echo "==================================="
+cat >> atomtypes_consolidados.txt << 'EOF'
+ OW       OW          0.00000  0.00000   A     3.15061e-01   6.36386e-01 ; SPC/E water O
+ HW       HW          0.00000  0.00000   A     0.00000e+00   0.00000e+00 ; SPC/E water H
+EOF
+echo "✅ Atomtypes de agua agregados"
+echo ""
+echo "📋 ATOMTYPES FINALES CONSOLIDADOS:"
+echo "Total: $(grep -v "^;" atomtypes_consolidados.txt | grep -v "^$" | wc -l) atomtypes"
+echo "Lista: $(grep -v "^;" atomtypes_consolidados.txt | grep -v "^$" | awk '{print $1}' | paste -sd ', ')"
+echo ""
+echo "🧹 CREANDO ARCHIVOS .ITP LIMPIOS"
+echo "================================"
+echo "📄 Creando aceto_clean.itp..."
+awk '
+/\[ atomtypes \]/ { 
+    print "; [atomtypes] section moved to sistema.top"
+    skip=1
+    next 
+}
+/^\[/ && skip { 
+    skip=0 
+}
+!skip { 
+    print 
+}
+' aceto.itp > aceto_clean.itp
+echo "📄 Creando pva_polymer_clean.itp..."
+awk '
+/\[ atomtypes \]/ { 
+    print "; [atomtypes] section moved to sistema.top"
+    skip=1
+    next 
+}
+/^\[/ && skip { 
+    skip=0 
+}
+!skip { 
+    print 
+}
+' pva_polymer.itp > pva_polymer_clean.itp
+echo ""
+echo "✅ ARCHIVOS LIMPIOS CREADOS:"
+echo "  • aceto_clean.itp (sin atomtypes)"
+echo "  • pva_polymer_clean.itp (sin atomtypes)"
+echo ""
+echo "🔍 VERIFICACIÓN DE ARCHIVOS LIMPIOS:"
+echo "Inicio de aceto_clean.itp:"
+head -5 aceto_clean.itp
+echo ""
+echo "Inicio de pva_polymer_clean.itp:"
+head -5 pva_polymer_clean.itp
+# Copia hasta la linea anterior 
+# Pegalo en tu terminal con ctrl + shift + V y dale enter para ejecutar
+# ARCHIVOS GENERADOS:
+# - atomtypes_consolidados.txt (actualizado con atomtypes de agua SPC/E)
+# - aceto_clean.itp (sin sección [atomtypes])
+# - pva_polymer_clean.itp (sin sección [atomtypes])
+# IMPORTANTE: Los archivos _clean.itp se incluirán en el archivo .top principal
+# El sistema queda preparado para crear la topología completa del sistema

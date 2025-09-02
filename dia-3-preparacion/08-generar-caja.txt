@@ -1,0 +1,124 @@
+# ===================================================================
+# DÍA 3 - PASO 8: GENERACIÓN AUTOMATIZADA DE CAJA DE SIMULACIÓN
+# ===================================================================
+
+# EJECUTAR: En Ubuntu (WSL) - Directorio con sistema.gro
+# Script automatizado que analiza dimensiones y genera caja óptima
+
+# Copia desde la siguiente línea
+echo "📦 PASO 6.2: GENERACIÓN DE CAJA"
+echo "==============================="
+echo "🔍 Analizando dimensiones actuales..."
+echo "Dimensiones en sistema.gro:"
+tail -1 sistema.gro
+echo ""
+echo "📏 Calculando dimensiones óptimas para solvatación..."
+# Analizar coordenadas para determinar tamaño mínimo necesario
+echo "Analizando rango de coordenadas:"
+awk 'NR>2 && NF>3 {
+    if(NR==3) {
+        minx=maxx=$4; miny=maxy=$5; minz=maxz=$6
+    } else {
+        if($4<minx) minx=$4; if($4>maxx) maxx=$4
+        if($5<miny) miny=$5; if($5>maxy) maxy=$5  
+        if($6<minz) minz=$6; if($6>maxz) maxz=$6
+    }
+} END {
+    rangex=maxx-minx; rangey=maxy-miny; rangez=maxz-minz
+    printf "  X: %.3f a %.3f nm (rango: %.3f nm)\n", minx, maxx, rangex
+    printf "  Y: %.3f a %.3f nm (rango: %.3f nm)\n", miny, maxy, rangey  
+    printf "  Z: %.3f a %.3f nm (rango: %.3f nm)\n", minz, maxz, rangez
+    printf "  Caja mínima recomendada: %.1f x %.1f x %.1f nm\n", rangex+2, rangey+2, rangez+2
+}' sistema.gro
+echo ""
+echo "🎯 Generando caja con dimensiones óptimas..."
+# Generar caja cúbica con distancia mínima de 1.0 nm a bordes
+gmx editconf -f sistema.gro -o sistema_box.gro -c -d 1.0 -bt cubic
+echo ""
+echo "✅ Caja generada: sistema_box.gro"
+echo ""
+echo "📋 Verificando caja generada..."
+echo "Nuevas dimensiones:"
+tail -1 sistema_box.gro
+echo ""
+echo "📊 Comparación antes/después:"
+echo "ANTES (sistema.gro):"
+echo "  $(tail -1 sistema.gro)"
+echo "DESPUÉS (sistema_box.gro):"  
+echo "  $(tail -1 sistema_box.gro)"
+echo ""
+echo "🔍 Verificando integridad..."
+# Verificar que el número de átomos se mantuvo
+orig_atoms=$(sed -n '2p' sistema.gro)
+new_atoms=$(sed -n '2p' sistema_box.gro)
+echo "Átomos originales: $orig_atoms"
+echo "Átomos en caja: $new_atoms"
+if [ "$orig_atoms" = "$new_atoms" ]; then
+    echo "✅ Número de átomos conservado"
+else
+    echo "❌ ERROR: Número de átomos cambió"
+fi
+echo ""
+echo "📄 Verificando con GROMACS..."
+gmx check -f sistema_box.gro
+echo ""
+echo "🎯 CAJA GENERADA EXITOSAMENTE"
+echo "============================"
+echo "Archivo generado:"
+echo "  ✅ sistema_box.gro (con dimensiones óptimas)"
+echo ""
+echo "📋 SIGUIENTE PASO: 6.3 Solvatación"
+echo "gmx solvate -cp sistema_box.gro -cs spc216.gro -o sistema_solv.gro -p sistema.top"
+# Copia hasta la línea anterior
+
+# Pégalo en tu terminal con Ctrl + Shift + V y dale Enter para ejecutar
+
+# LUEGO EJECUTA LO SIGUIENTE: 
+# COMANDO PARA OPTIMIZAR LAS DIMENSIONES DE LA CAJA
+gmx editconf -f sistema.gro -o sistema_box.gro -c -d 1.0 -bt cubic
+
+# PARÁMETROS:
+# * `-c` = Centrar sistema en caja
+# * `-d 1.0` = Distancia mínima 1.0 nm a bordes
+# * `-bt cubic` = Caja cúbica (óptima para solvatación)
+
+# SALIDA ESPERADA:
+# :-) GROMACS - gmx editconf, 2025.2 (-:
+# 
+# Executable:   /opt/gromacs-24.4/bin/gmx
+# Data prefix:  /opt/gromacs-24.4
+# Working dir:  /home/jbram/gromacs_proyectos/mi_primera_simulacion/preparacion/simulacion_nueva/nuevo_intento/otramas/otra
+# Command line:
+#   gmx editconf -f sistema.gro -o sistema_box.gro -c -d 1.0 -bt cubic
+# 
+# Note that major changes are planned in future for editconf, to improve usability and utility.
+# 
+# Read 71 atoms
+# Volume: 8000 nm^3, corresponds to roughly 3600000 electrons
+# No velocities found
+# system size : 1.811 0.480 0.335 (nm)
+# diameter     : 1.812 (nm)
+# center       : 0.009 -0.013 0.002 (nm)
+# box vectors  : 40.000 20.000 10.000 (nm)
+# box angles   : 90.00 90.00 90.00 (degrees)
+# box volume   :8000.00 (nm^3)
+# shift        : 1.896 1.919 1.904 (nm)
+# new center   : 1.906 1.906 1.906 (nm)
+# new box vectors : 3.812 3.812 3.812 (nm)
+# new box angles  : 90.00 90.00 90.00 (degrees)
+# new box volume  : 55.39 (nm^3)
+# 
+# Back Off! I just backed up sistema_box.gro to ./#sistema_box.gro.1#
+# 
+# GROMACS reminds you: "Give a Man a Fish" (Arrested Development)
+
+# FUNCIONAMIENTO DEL SCRIPT:
+# - Analiza dimensiones actuales del sistema
+# - Calcula rango de coordenadas de todas las moléculas
+# - Recomienda tamaño mínimo de caja
+# - Genera caja cúbica centrada con margen de seguridad
+# - Verifica integridad del proceso
+
+# IMPORTANTE: 
+# Estos comandos permiten crear una caja óptima para el proceso 
+# La distancia de 1.0 nm a bordes previene artefactos en condiciones periódicas

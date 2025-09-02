@@ -1,0 +1,76 @@
+# ===================================================================
+# DÍA 3 - PASO 9: SOLVATACIÓN DEL SISTEMA
+# ===================================================================
+
+# EJECUTAR: En Ubuntu (WSL) - Directorio con sistema_box.gro
+# Llenar la caja con moléculas de agua usando modelo SPC/E
+
+# Comando de solvatación
+gmx solvate -cp sistema_box.gro -cs spc216.gro -o sistema_solv.gro -p sistema.top
+
+# PARÁMETROS:
+# * `-cp` = Archivo de coordenadas (sistema en caja)
+# * `-cs` = Modelo de solvente (SPC216 - agua preequilibrada)
+# * `-o` = Archivo de salida (sistema solvatado)
+# * `-p` = Archivo de topología a actualizar
+
+# SALIDA ESPERADA:
+# :-) GROMACS - gmx solvate, 2025.2 (-:
+# 
+# Executable:   /opt/gromacs-24.4/bin/gmx
+# Data prefix:  /opt/gromacs-24.4
+# Working dir:  /home/jbram/gromacs_proyectos/mi_primera_simulacion/preparacion/simulacion_nueva/nuevo_intento/otramas/otra
+# Command line:
+#   gmx solvate -cp sistema_box.gro -cs spc216.gro -o sistema_solv.gro -p sistema.top
+# 
+# Reading solute configuration
+# Reading solvent configuration
+# Initialising inter-atomic distances...
+# WARNING: Masses and atomic (Van der Waals) radii will be guessed
+# based on residue and atom names, since they could not be definitively
+# assigned from the information in your input files. These guessed
+# numbers might deviate from the mass and radius of the atom type.
+# Please check the output files if necessary.
+# Note, that this functionality may be removed in a future GROMACS version.
+# Please, consider using another file format for your input.
+# 
+# NOTE: From version 5.0 gmx solvate uses the Van der Waals radii
+# from the source below. This means the results may be different
+# compared to previous GROMACS versions.
+# 
+# ++++ PLEASE READ AND CITE THE FOLLOWING REFERENCE ++++
+# A. Bondi
+# van der Waals Volumes and Radii
+# J. Phys. Chem. (1964)
+# DOI: 10.1021/j100785a001
+# -------- -------- --- Thank You --- -------- --------
+# 
+# Generating solvent configuration
+# Will generate new solvent configuration of 3x3x3 boxes
+# Solvent box contains 6975 atoms in 2325 residues
+# Removed 1869 solvent atoms due to solvent-solvent overlap
+# Removed 51 solvent atoms due to solute-solvent overlap
+# Sorting configuration
+# Found 1 molecule type:
+#   SOL (  3 atoms): 1685 residues
+# Generated solvent containing 5055 atoms in 1685 residues
+# Writing generated configuration to sistema_solv.gro
+# 
+# Output configuration contains 5126 atoms in 1687 residues
+# Volume                 :     55.3852 (nm^3)
+# Density                :     923.989 (g/l)
+# Number of solvent molecules:   1685
+# 
+# Processing topology
+# Adding line for 1685 solvent molecules with resname (SOL) to topology file (sistema.top)
+# 
+# Back Off! I just backed up sistema.top to ./#sistema.top.1#
+# 
+# GROMACS reminds you: "Always code as if the person who ends up maintaining your code is a violent psychopath who knows where you live." (Martin Golding)
+
+# ARCHIVOS GENERADOS:
+# ✅ sistema_solv.gro (5126 átomos total)
+# ✅ sistema.top actualizado (+ 1685 moléculas SOL)
+
+# IMPORTANTE: 
+# La topología se actualiza automáticamente con las moléculas de agua
