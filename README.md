@@ -1,6 +1,7 @@
+<div align="center">
+
 # Repositorio Guía de Comandos GROMACS
 
-<div align="center">
 
 **Banco completo de comandos para acompañar la guía práctica de GROMACS en Windows**
 
